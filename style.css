@@ -1,0 +1,100 @@
+
+/* GRADE X Admin — mobile layout fix */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.app {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.main,
+.content,
+.page,
+.topbar,
+.card,
+.panel,
+.auth-screen {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.main,
+.content {
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+label,
+button,
+input,
+textarea,
+select {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  font-size: 16px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 700px) {
+  .app {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main,
+  .content {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .grid,
+  .stats,
+  .cards {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  button {
+    white-space: normal;
+  }
+}
