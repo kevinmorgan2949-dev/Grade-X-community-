@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080812">
+  <meta name="description" content="GRADE X Community — Your voice. Your community. News, conversations, trends and ideas.">
+  <title>GRADE X | Community</title>
+  <style>
+    :root {
+      --bg: #080812;
+      --panel: #111124;
+      --purple: #955cff;
+      --blue: #448aff;
+      --text: #f5f3ff;
+      --muted: #aaa8c4;
+      --border: #292742;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(8, 8, 18, .94);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(15px);
+    }
+
+    .navbar {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      box-shadow: 0 0 24px #955cff38;
+    }
+
+    .logo span {
+      font-size: 21px;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 13px;
+      transition: color .2s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .nav-btn, .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(110deg, var(--purple), var(--blue));
+      color: white;
+      font-weight: bold;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 0 75px;
+      background:
+        radial-gradient(ellipse at 80% 20%, #6633aa28, transparent 45%),
+        radial-gradient(ellipse at 10% 80%, #1761ba20, transparent 40%);
+    }
+
+    .hero-content {
+      max-width: 750px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 13px;
+      border: 1px solid #7956c955;
+      border-radius: 30px;
+      color: #c3a6ff;
+      background: #8c52ff12;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      margin: 23px 0 17px;
+      font-size: clamp(38px, 8vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #b98aff, #65a7ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 570px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff05;
+    }
+
+    .ticker {
+      padding: 13px 0;
+      background: #121125;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .ticker-inner {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .live {
+      color: #d0b4ff;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .ticker p {
+      color: var(--muted);
+    }
+
+    section {
+      padding: 65px 0;
+      scroll-margin-top: 80px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(23px, 5vw, 34px);
+      letter-spacing: -.6px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .text-link {
+      color: #b99aff;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--panel);
+      transition: transform .2s, border-color .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #7956c9;
+    }
+
+    .card-art {
+      min-height: 145px;
+      display: grid;
+      place-items: center;
+      font-size: 48px;
+      background: linear-gradient(135deg, #42226d, #152b56);
+    }
+
+    .art-blue {
+      background: linear-gradient(135deg, #173f78, #27194b);
+    }
+
+    .art-pink {
+      background: linear-gradient(135deg, #65294f, #292052);
+    }
+
+    .card-body {
+      padding: 19px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #c4a9ff;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card-meta {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      color: #8e8ba9;
+      font-size: 11px;
+    }
+
+    .community-panel {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 28px;
+      align-items: center;
+      padding: 32px;
+      border: 1px solid #6143a255;
+      border-radius: 22px;
+      background:
+        radial-gradient(ellipse at top right, #7544bd24, transparent 55%),
+        var(--panel);
+    }
+
+    .community-panel h2 {
+      margin: 14px 0;
+      font-size: clamp(26px, 5vw, 40px);
+      line-height: 1.2;
+    }
+
+    .community-panel p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #08081270;
+    }
+
+    .feature-icon {
+      font-size: 25px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .feature small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .complaint-box {
+      padding: 30px;
+      border: 1px solid #41407b;
+      border-radius: 20px;
+      background: linear-gradient(120deg, #18132c, #101c34);
+    }
+
+    .complaint-box h2 {
+      margin-bottom: 9px;
+      font-size: 27px;
+    }
+
+    .complaint-box p {
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      background: #06060d;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .footer-inner p, .footer-inner a {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .notice {
+      padding: 10px 0;
+      text-align: center;
+      color: #8e8ba9;
+      font-size: 11px;
+    }
+
+    @media (max-width: 760px) {
+      .navbar {
+        min-height: 66px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      nav a:not(.nav-btn) {
+        display: none;
+      }
+
+      .hero {
+        padding: 72px 0 60px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-art {
+        min-height: 125px;
+      }
+
+      .community-panel {
+        grid-template-columns: 1fr;
+        padding: 22px;
+      }
+
+      section {
+        padding: 48px 0;
+      }
+
+      .section-heading {
+        align-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container navbar">
+      <a class="brand" href="#home">
+        <span class="logo"><span>GX</span></span>
+        <span>GRADE X<small>COMMUNITY</small></span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a href="#news">News</a>
+        <a href="#community">Community</a>
+        <a href="#trends">Trends</a>
+        <a class="nav-btn" href="#speak-up">Speak Up ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <span class="eyebrow">WELCOME TO THE GX COMMUNITY</span>
+        <h1>YOUR VOICE.<br><span class="gradient-text">YOUR COMMUNITY.</span></h1>
+        <p>
+          Discover stories, share ideas, join conversations and
+          speak up about the things that matter. This is your space.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#news">Explore GX →</a>
+          <a class="secondary-btn" href="#speak-up">Submit a Complaint</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker">
+      <div class="container ticker-inner">
+        <span class="live">✦ GX COMMUNITY</span>
+        <p>News • Ideas • Conversations • Entertainment • Your Voice</p>
+      </div>
+    </div>
+
+    <section id="news">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Inside <span class="gradient-text">GX News</span></h2>
+            <p>Stories and updates worth talking about.</p>
+          </div>
+          <a class="text-link" href="#news">Explore news ↗</a>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-art">📰</div>
+            <div class="card-body">
+              <span class="tag">GX Updates</span>
+              <h3>Welcome to a new space for the community</h3>
+              <p>A place to discover updates, share perspectives and make your voice count.</p>
+              <div class="card-meta">GRADE X · Welcome story</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-art art-blue">🌍</div>
+            <div class="card-body">
+              <span class="tag">What's Happening</span>
+              <h3>Ideas and stories from around us</h3>
+              <p>Explore the topics people are discussing and the ideas shaping our community.</p>
+              <div class="card-meta">COMMUNITY · Featured</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-art art-pink">💡</div>
+            <div class="card-body">
+              <span class="tag">Your Ideas</span>
+              <h3>Good ideas deserve to be heard</h3>
+              <p>Have a suggestion for making things better? GRADE X wants to hear from you.</p>
+              <div class="card-meta">GX VOICES · Get involved</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="container">
+        <div class="community-panel">
+          <div>
+            <span class="eyebrow">MORE THAN A WEBSITE</span>
+            <h2>There's a place for <span class="gradient-text">your voice.</span></h2>
+            <p>
+              Join conversations, share your ideas, ask questions and
+              discover what other members of the community care about.
+            </p>
+            <div class="hero-actions" style="justify-content:flex-start">
+              <a class="primary-btn" href="#trends">Explore the community</a>
+            </div>
+          </div>
+
+          <div class="feature-list">
+            <div class="feature">
+              <span class="feature-icon">💬</span>
+              <div><strong>Community Discussions</strong><small>Questions, opinions and conversations</small></div>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📊</span>
+              <div><strong>Polls & Opinions</strong><small>Share your view on community topics</small></div>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">🤝</span>
+              <div><strong>Suggestions</strong><small>Help make the community better</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trends">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>GX <span class="gradient-text">Trending</span></h2>
+            <p>Fun, culture and interesting conversations.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-art art-pink">😂</div>
+            <div class="card-body">
+              <span class="tag">Entertainment</span>
+              <h3>Memes & Good Vibes</h3>
+              <p>A space for humour, funny moments and shareable content.</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-art art-blue">🔥</div>
+            <div class="card-body">
+              <span class="tag">Hot Topics</span>
+              <h3>What's Everyone Talking About?</h3>
+              <p>Discover interesting topics and join the conversation.</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-art">🧠</div>
+            <div class="card-body">
+              <span class="tag">Did You Know?</span>
+              <h3>Facts Worth Sharing</h3>
+              <p>Surprising facts, fresh perspectives and things to learn.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="speak-up">
+      <div class="container">
+        <div class="complaint-box">
+          <span class="eyebrow">YOUR VOICE MATTERS</span>
+          <h2>Something on your mind?</h2>
+          <p>
+            Share a complaint, report a concern or suggest an improvement.
+            You deserve a space to be heard.
+          </p>
+          <a class="primary-btn" href="complaints.html">Go to Complaints & Suggestions →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="brand" href="#home">
+        <span class="logo">GX</span>
+        <span>GRADE X<small>COMMUNITY</small></span>
+      </a>
+      <div class="footer-links">
+        <a href="#news">News</a>
+        <a href="#community">Community</a>
+        <a href="#speak-up">Complaints</a>
+      </div>
+      <p>© <span id="year"></span> GRADE X. All rights reserved.</p>
+    </div>
+    <div class="container notice">
+      A community built around stories, ideas and voices.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

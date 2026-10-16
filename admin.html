@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRADE X | Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080914;--panel:#111326;--purple:#8b5cf6;--blue:#38bdf8;--text:#f4f3ff;--muted:#9699b5;--border:#282943}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{width:235px;background:#0d0e1d;border-right:1px solid var(--border);padding:22px 14px;flex-shrink:0}
+.brand{font-size:21px;font-weight:900;letter-spacing:1px;margin:5px 8px 8px}
+.brand span{color:var(--purple)}
+.subtitle{font-size:11px;color:var(--muted);margin:0 8px 28px}
+.nav-label{font-size:10px;color:var(--muted);margin:22px 10px 9px;text-transform:uppercase;letter-spacing:1.5px}
+.nav button{display:block;width:100%;padding:12px 11px;margin:4px 0;border:0;border-radius:9px;background:transparent;color:#c6c7dd;text-align:left;font-size:13px}
+.nav button:hover,.nav button.active{background:#21183c;color:white}
+.nav button.active{border-left:3px solid var(--purple)}
+.sidebar-bottom{margin-top:35px;padding:12px;font-size:11px;color:var(--muted);line-height:1.7;border-top:1px solid var(--border)}
+.main{flex:1;min-width:0}
+.topbar{padding:20px 25px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar h2{font-size:19px}
+.topbar p{font-size:11px;color:var(--muted);margin-top:5px}
+.admin-tag{background:#21183c;border:1px solid #493278;color:#c4aaff;padding:8px 11px;border-radius:20px;font-size:11px}
+.content{padding:25px;max-width:1200px;margin:auto}
+.notice{padding:13px 15px;border:1px solid #3a2d60;background:#17132a;border-radius:10px;font-size:12px;color:#d4c8ff;line-height:1.6;margin-bottom:24px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:24px 0 14px}
+.section-head h3{font-size:16px}
+.muted{color:var(--muted);font-size:12px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.stat,.card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:17px}
+.stat p{color:var(--muted);font-size:11px}
+.stat h3{font-size:25px;margin:13px 0 5px}
+.stat small{color:var(--blue);font-size:10px}
+.columns{display:grid;grid-template-columns:1.2fr 1fr;gap:15px}
+.card h3{font-size:14px;margin-bottom:15px}
+.activity{padding:12px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.7}
+.activity:last-child{border-bottom:0}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--purple);margin-right:8px}
+.quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.quick-actions button{background:#19152c;border:1px solid #3a2b59;color:#d9ccff;padding:13px 8px;border-radius:9px;font-size:12px}
+.page{display:none}
+.page.active{display:block}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;color:#c5c5dc;margin-bottom:7px}
+.field input,.field textarea,.field select{width:100%;padding:12px;background:#090b18;border:1px solid var(--border);border-radius:8px;color:white;outline:none}
+.field input:focus,.field textarea:focus{border-color:var(--purple)}
+.field textarea{resize:vertical;min-height:100px}
+.btn{border:0;background:var(--purple);color:white;border-radius:8px;padding:11px 15px;font-size:12px;font-weight:bold}
+.btn.secondary{background:#22243a;border:1px solid var(--border)}
+.btn.danger{background:#4a1e30}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.item{border:1px solid var(--border);background:#0d0f1f;padding:14px;border-radius:9px;margin:10px 0}
+.item strong{font-size:13px}
+.item p{font-size:12px;color:var(--muted);margin:8px 0;line-height:1.6;overflow-wrap:anywhere}
+.badge{display:inline-block;font-size:10px;padding:5px 8px;border-radius:12px;background:#24203e;color:#c9b8ff;margin-top:5px}
+.empty{padding:25px 10px;text-align:center;color:var(--muted);font-size:12px}
+footer{padding:25px;text-align:center;color:var(--muted);font-size:10px}
+@media(max-width:850px){
+ .sidebar{width:185px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .columns{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+ .app{display:block}
+ .sidebar{width:100%;padding:14px;border-right:0;border-bottom:1px solid var(--border)}
+ .brand{font-size:19px}
+ .subtitle{margin-bottom:12px}
+ .nav-label,.sidebar-bottom{display:none}
+ .nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:3px}
+ .nav button{white-space:nowrap;width:auto;flex-shrink:0;padding:10px;font-size:11px}
+ .topbar{padding:16px}
+ .content{padding:15px}
+ .stats{gap:9px}
+ .stat{padding:13px}
+ .stat h3{font-size:22px}
+ .stat p{font-size:10px}
+ .admin-tag{font-size:10px}
+}
+
+/* GRADE X Admin Login */
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: radial-gradient(ellipse at top, #21183c, #080914 65%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 28px;
+  border: 1px solid #3a2d60;
+  border-radius: 18px;
+  background: #111326;
+  box-shadow: 0 15px 50px #0008;
+}
+
+.auth-card h2 {
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+.auth-card .auth-subtitle {
+  color: #9699b5;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 14px;
+  border: 1px solid #282943;
+  border-radius: 8px;
+  background: #090b18;
+  color: white;
+}
+
+.auth-card label {
+  font-size: 12px;
+  color: #c5c5dc;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 13px;
+  border: 0;
+  border-radius: 8px;
+  background: #8b5cf6;
+  color: white;
+  font-weight: bold;
+}
+
+#loginMessage {
+  color: #fca5a5;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 14px;
+  overflow-wrap: anywhere;
+}
+
+.app {
+  display: none;
+}
+
+body.is-admin .app {
+  display: flex;
+}
+
+body.is-admin .auth-screen {
+  display: none;
+}
+
+</style>
+</head>
+
+<body>
+  
+<div class="auth-screen" id="loginScreen">
+  <div class="auth-card">
+    <div class="brand">GRADE <span style="color:#8b5cf6">X</span></div>
+    <h2>Admin Login</h2>
+    <p class="auth-subtitle">
+      Sign in to manage GRADE X Community announcements.
+    </p>
+
+    <form id="loginForm">
+      <label for="loginEmail">Admin Email</label>
+      <input
+        id="loginEmail"
+        type="email"
+        autocomplete="username"
+        placeholder="Enter your admin email"
+        required
+      >
+
+      <label for="loginPassword">Password</label>
+      <input
+        id="loginPassword"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Enter your password"
+        required
+      >
+
+      <button type="submit" id="loginButton">Sign In</button>
+      <p id="loginMessage" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand">GRADE <span>X</span></div>
+  <div class="subtitle">COMMUNITY CONTROL CENTER</div>
+
+  <div class="nav-label">MAIN MENU</div>
+  <nav class="nav">
+    <button class="active" data-page="overview">▦ Overview</button>
+    <button data-page="announcements">◈ Announcements</button>
+    <button data-page="community">◎ Community</button>
+    <button data-page="complaints">⚑ Complaints</button>
+    <button data-page="settings">⚙ Settings</button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    GRADE X COMMUNITY<br>
+    Admin workspace<br>
+    <span style="color:#8b5cf6">● Frontend preview</span>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div>
+      <h2 id="pageTitle">Dashboard Overview</h2>
+      <p>Manage your GRADE X community</p>
+    </div>
+    <span class="admin-tag">ADMIN PANEL</span>
+  </header>
+
+  <div class="content">
+
+    <div class="notice">
+      <strong>Welcome to GRADE X Admin.</strong><br>
+      This is the frontend dashboard preview. Real user data, complaint storage and secure administrator access will be connected to the backend later.
+    </div>
+
+    <section class="page active" id="overview">
+      <div class="stats">
+        <div class="stat"><p>Community Members</p><h3>—</h3><small>Backend not connected</small></div>
+        <div class="stat"><p>Announcements</p><h3 id="announcementCount">0</h3><small>Created in this preview</small></div>
+        <div class="stat"><p>Complaints</p><h3>—</h3><small>Awaiting connection</small></div>
+        <div class="stat"><p>System Status</p><h3 style="font-size:19px">Frontend</h3><small>Dashboard loaded</small></div>
+      </div>
+
+      <div class="section-head"><h3>Quick Actions</h3></div>
+      <div class="card">
+        <div class="quick-actions">
+          <button data-go="announcements">＋ Create Announcement</button>
+          <button data-go="community">◎ Community Tools</button>
+          <button data-go="complaints">⚑ View Complaints</button>
+          <button data-go="settings">⚙ Dashboard Settings</button>
+        </div>
+      </div>
+
+      <div class="section-head"><h3>Recent Activity</h3></div>
+      <div class="card" id="activityList">
+        <div class="activity"><span class="dot"></span>Admin dashboard opened.</div>
+        <div class="activity"><span class="dot"></span>Waiting for backend integration.</div>
+      </div>
+    </section>
+
+    <section class="page" id="announcements">
+      <div class="section-head"><h3>Announcements</h3></div>
+      <div class="card">
+        <p class="muted">Write a notice for the GRADE X community. Preview announcements appear below; they are not published online yet.</p>
+        <br>
+        <form id="announcementForm">
+          <div class="field">
+            <label for="announcementTitle">Announcement title</label>
+            <input id="announcementTitle" required maxlength="100" placeholder="e.g. Welcome to GRADE X">
+          </div>
+          
+<div class="field">
+  <label for="announcementImage">Announcement Picture (Optional)</label>
+  <input
+    id="announcementImage"
+    type="file"
+    accept="image/*"
+  >
+  <p class="muted" style="margin-top:8px">
+    Choose a flyer, school notice, or event picture from your phone.
+  </p>
+  <img
+    id="imagePreview"
+    alt="Announcement image preview"
+    style="display:none;width:100%;max-height:280px;object-fit:contain;margin-top:12px;border-radius:10px;border:1px solid #282943"
+  >
+  <button
+    type="button"
+    class="btn secondary"
+    id="removeImage"
+    style="display:none;margin-top:10px"
+  >Remove Picture</button>
+</div>
+
+<div class="field">
+  <label for="announcementText">Message</label>
+  <textarea id="announcementText" required maxlength="2000" placeholder="Write your announcement..."></textarea>
+</div>
+
+          <button class="btn" type="submit">Create Announcement</button>
+        </form>
+      </div>
+      <div class="section-head"><h3>Created Announcements</h3></div>
+      <div id="announcementList"><div class="empty">No announcements created yet.</div></div>
+    </section>
+
+    <section class="page" id="community">
+      <div class="section-head"><h3>Community Management</h3></div>
+      <div class="card">
+        <h3>Community tools</h3>
+        <p class="muted">This section will later connect to the backend to manage members, moderate posts and handle reports.</p>
+        <div class="item">
+          <strong>Member management</strong>
+          <p>View members, review reports and apply moderation actions after secure backend integration.</p>
+          <span class="badge">Backend pending</span>
+        </div>
+        <div class="item">
+          <strong>Content moderation</strong>
+          <p>Tools for reviewing inappropriate content and maintaining a respectful student community.</p>
+          <span class="badge">Backend pending</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="complaints">
+      <div class="section-head"><h3>Complaints Center</h3></div>
+      <div class="card">
+        <h3>Complaint management</h3>
+        <p class="muted">Complaints submitted through your separate complaints page will not appear here until both pages are connected to a shared backend.</p>
+        <div class="item">
+          <strong>Complaint records</strong>
+          <p>No live complaint records are connected yet.</p>
+          <span class="badge">Integration pending</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn secondary" id="openComplaints">Open Complaints Page</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="settings">
+      <div class="section-head"><h3>Dashboard Settings</h3></div>
+      <div class="card">
+        <h3>Community information</h3>
+        <form id="settingsForm">
+          <div class="field">
+            <label for="siteName">Website name</label>
+            <input id="siteName" value="GRADE X Community">
+          </div>
+          <div class="field">
+            <label for="supportEmail">Support email</label>
+            <input id="supportEmail" type="email" value="gradexarena@gmail.com">
+          </div>
+          <button class="btn" type="submit">Preview Settings</button>
+        </form>
+        <p class="muted" id="settingsMessage" style="margin-top:14px"></p>
+      </div>
+      <div class="card" style="margin-top:15px">
+        <h3>Security reminder</h3>
+        <p class="muted">Do not treat this page as a secure admin login. Before publishing admin features, we must add backend authentication and enforce administrator permissions on the server.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>GRADE X COMMUNITY © 2026 · Admin Dashboard Preview</footer>
+</main>
+</div>
+
+<script>
+const SUPABASE_URL = "https://mjhpctegjxdhjfyjsyjc.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_AbnAAEsNmHb6U1-rfMS36A_A7_0XWwB";
+
+const { createClient } = supabase;
+
+const communityDB = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+const navButtons = document.querySelectorAll("[data-page]");
+const pages = document.querySelectorAll(".page");
+const pageTitle = document.getElementById("pageTitle");
+
+const titles = {
+  overview: "Dashboard Overview",
+  announcements: "Announcements",
+  community: "Community Management",
+  complaints: "Complaints Center",
+  settings: "Dashboard Settings"
+};
+
+function showPage(name) {
+  if (!titles[name]) return;
+
+  pages.forEach(page =>
+    page.classList.toggle("active", page.id === name)
+  );
+
+  navButtons.forEach(button =>
+    button.classList.toggle("active", button.dataset.page === name)
+  );
+
+  pageTitle.textContent = titles[name];
+  window.scrollTo(0, 0);
+}
+
+navButtons.forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.go));
+});
+
+// Admin authentication
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+const loginButton = document.getElementById("loginButton");
+
+async function verifyAdmin(session) {
+  if (!session) {
+    document.body.classList.remove("is-admin");
+    return false;
+  }
+
+  const { data, error } = await communityDB
+    .from("community_admins")
+    .select("user_id")
+    .eq("user_id", session.user.id)
+    .maybeSingle();
+
+  if (error) {
+    loginMessage.textContent =
+      "Could not verify admin access. Check your connection and database policies.";
+    document.body.classList.remove("is-admin");
+    return false;
+  }
+
+  if (!data) {
+    await communityDB.auth.signOut();
+    loginMessage.textContent =
+      "This account is not an approved administrator.";
+    document.body.classList.remove("is-admin");
+    return false;
+  }
+
+  document.body.classList.add("is-admin");
+  loginMessage.textContent = "";
+  addLogoutButton();
+  return true;
+}
+
+loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  loginButton.disabled = true;
+  loginButton.textContent = "Signing in...";
+  loginMessage.textContent = "";
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    const { data, error } = await communityDB.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    const allowed = await verifyAdmin(data.session);
+
+    if (allowed) {
+      loginForm.reset();
+    }
+  } catch (error) {
+    loginMessage.textContent =
+      error.message || "Login failed. Please try again.";
+  } finally {
+    loginButton.disabled = false;
+    loginButton.textContent = "Sign In";
+  }
+});
+
+function addLogoutButton() {
+  if (document.getElementById("logoutButton")) return;
+
+  const button = document.createElement("button");
+  button.id = "logoutButton";
+  button.className = "btn secondary";
+  button.textContent = "Sign Out";
+  button.style.marginLeft = "10px";
+
+  button.addEventListener("click", async () => {
+    await communityDB.auth.signOut();
+    document.body.classList.remove("is-admin");
+    button.remove();
+    loginMessage.textContent = "You have signed out.";
+  });
+
+  document.querySelector(".topbar").appendChild(button);
+}
+
+async function restoreAdminSession() {
+  const { data, error } = await communityDB.auth.getSession();
+
+  if (error) {
+    loginMessage.textContent = "Could not check your session.";
+    return;
+  }
+
+  if (data.session) {
+    await verifyAdmin(data.session);
+  }
+}
+
+const announcementImage = document.getElementById("announcementImage");
+const imagePreview = document.getElementById("imagePreview");
+const removeImage = document.getElementById("removeImage");
+const announcementForm = document.getElementById("announcementForm");
+const announcementList = document.getElementById("announcementList");
+const announcementCount = document.getElementById("announcementCount");
+const activityList = document.getElementById("activityList");
+const createAnnouncementButton = announcementForm.querySelector(
+  'button[type="submit"]'
+);
+
+let selectedAnnouncementFile = null;
+let announcements = [];
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
+}
+
+// Image selection and preview
+announcementImage.addEventListener("change", function () {
+  const file = this.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Please choose an image file.");
+    this.value = "";
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Please choose an image smaller than 5 MB.");
+    this.value = "";
+    return;
+  }
+
+  selectedAnnouncementFile = file;
+
+  const reader = new FileReader();
+
+  reader.onload = event => {
+    imagePreview.src = event.target.result;
+    imagePreview.style.display = "block";
+    removeImage.style.display = "inline-block";
+  };
+
+  reader.readAsDataURL(file);
+});
+
+removeImage.addEventListener("click", () => {
+  selectedAnnouncementFile = null;
+  announcementImage.value = "";
+  imagePreview.removeAttribute("src");
+  imagePreview.style.display = "none";
+  removeImage.style.display = "none";
+});
+
+// Render announcements loaded from Supabase
+function renderAnnouncements() {
+  announcementCount.textContent = announcements.length;
+
+  if (!announcements.length) {
+    announcementList.innerHTML =
+      '<div class="empty">No published announcements yet.</div>';
+    return;
+  }
+
+  announcementList.innerHTML = announcements.map(item => {
+    const date = item.created_at
+      ? new Date(item.created_at).toLocaleDateString()
+      : "";
+
+    return `
+      <div class="item">
+        ${item.image_url ? `
+          <img
+            src="${escapeHTML(item.image_url)}"
+            alt="Announcement picture"
+            style="width:100%;max-height:300px;object-fit:contain;border-radius:9px;margin-bottom:12px;background:#080914"
+          >
+        ` : ""}
+
+        <strong>${escapeHTML(item.title)}</strong>
+        <p>${escapeHTML(item.message).replace(/\n/g, "<br>")}</p>
+        <span class="badge">
+          Published · ${escapeHTML(item.category || "News")} · ${escapeHTML(date)}
+        </span>
+      </div>
+    `;
+  }).join("");
+}
+
+// Load saved published announcements
+async function loadAnnouncements() {
+  announcementList.innerHTML =
+    '<div class="empty">Loading announcements...</div>';
+
+  const { data, error } = await communityDB
+    .from("announcements")
+    .select("id, title, message, category, image_url, created_at")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    announcementList.innerHTML =
+      '<div class="empty">Could not load announcements: ' +
+      escapeHTML(error.message) + '</div>';
+    return;
+  }
+
+  announcements = data || [];
+  renderAnnouncements();
+}
+
+// Upload an optional image and publish the announcement
+announcementForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!document.body.classList.contains("is-admin")) {
+    alert("Please sign in with your approved admin account first.");
+    return;
+  }
+
+  const title = document.getElementById("announcementTitle").value.trim();
+  const message = document.getElementById("announcementText").value.trim();
+
+  if (!title || !message) {
+    alert("Please enter both a title and a message.");
+    return;
+  }
+
+  createAnnouncementButton.disabled = true;
+  createAnnouncementButton.textContent = "Publishing...";
+
+  let uploadedImagePath = null;
+
+  try {
+    // Upload the image if one was selected
+    let imageUrl = null;
+
+    if (selectedAnnouncementFile) {
+      const file = selectedAnnouncementFile;
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const uniqueName =
+        Date.now() + "_" +
+        Math.random().toString(36).slice(2) + "_" +
+        safeName;
+
+      const { data: uploadData, error: uploadError } =
+        await communityDB.storage
+          .from("community-images")
+          .upload(uniqueName, file, {
+            contentType: file.type,
+            upsert: false
+          });
+
+      if (uploadError) throw uploadError;
+
+      uploadedImagePath = uploadData.path;
+
+      const { data: publicData } = communityDB.storage
+        .from("community-images")
+        .getPublicUrl(uploadData.path);
+
+      imageUrl = publicData.publicUrl;
+    }
+
+    // Save and publish the announcement
+    const { error: insertError } = await communityDB
+      .from("announcements")
+      .insert({
+        title: title,
+        message: message,
+        category: "News",
+        image_url: imageUrl,
+        is_published: true
+      });
+
+    if (insertError) {
+      // Clean up an uploaded image if saving the announcement failed
+      if (uploadedImagePath) {
+        await communityDB.storage
+          .from("community-images")
+          .remove([uploadedImagePath]);
+      }
+
+      throw insertError;
+    }
+
+    announcementForm.reset();
+    selectedAnnouncementFile = null;
+    imagePreview.removeAttribute("src");
+    imagePreview.style.display = "none";
+    removeImage.style.display = "none";
+
+    const activity = document.createElement("div");
+    activity.className = "activity";
+    activity.textContent = "Announcement published: " + title;
+    activityList.prepend(activity);
+
+    await loadAnnouncements();
+
+    alert("Announcement published successfully!");
+  } catch (error) {
+    console.error("Announcement publishing error:", error);
+    alert(
+      "Could not publish announcement: " +
+      (error.message || "Unknown error") +
+      "\n\nCheck your connection and Supabase permissions."
+    );
+  } finally {
+    createAnnouncementButton.disabled = false;
+    createAnnouncementButton.textContent = "Create Announcement";
+  }
+});
+
+// Keep your Settings preview working
+document.getElementById("settingsForm")
+  .addEventListener("submit", event => {
+    event.preventDefault();
+
+    const name = document.getElementById("siteName").value.trim();
+    const email = document.getElementById("supportEmail").value.trim();
+
+    document.getElementById("settingsMessage").textContent =
+      "Preview only: " + (name || "GRADE X Community") +
+      " · Support: " + (email || "Not set") +
+      ". These settings have not been saved to a server.";
+  });
+
+// Keep your Complaints navigation working
+document.getElementById("openComplaints").addEventListener("click", () => {
+  window.location.href = "complaints.html";
+});
+
+
+loadAnnouncements();
+restoreAdminSession();
+
+</script>
+</body>
+</html>

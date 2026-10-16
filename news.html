@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080914">
+<title>GRADE X | News & Announcements</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080914;--panel:#111326;--purple:#8b5cf6;--blue:#38bdf8;--text:#f4f3ff;--muted:#999bb8;--border:#282943}
+body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{cursor:pointer}
+header{padding:17px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--border);background:#0c0d1b}
+.logo{font-size:23px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--purple)}
+.nav{display:flex;align-items:center;gap:20px;font-size:12px;color:#c6c7dd}
+.nav a:hover{color:var(--blue)}
+.hero{padding:60px 6% 45px;background:radial-gradient(ellipse at top left,#28204b 0%,#101126 45%,#080914 85%);border-bottom:1px solid var(--border)}
+.eyebrow{color:#bba4ff;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:15px}
+.hero h1{font-size:clamp(32px,6vw,55px);line-height:1.1;max-width:650px;margin-bottom:15px}
+.hero h1 span{color:var(--purple)}
+.hero p{color:#b5b5ce;font-size:14px;line-height:1.8;max-width:560px}
+.container{width:88%;max-width:1150px;margin:auto}
+.toolbar{display:flex;gap:12px;margin:28px 0 17px}
+.search{flex:1;min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:13px 15px;color:white;outline:none}
+.search:focus{border-color:var(--purple)}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:3px 0 15px}
+.categories button{flex-shrink:0;background:var(--panel);color:#c7c7dd;border:1px solid var(--border);border-radius:20px;padding:9px 15px;font-size:11px}
+.categories button.active,.categories button:hover{background:#30204f;border-color:var(--purple);color:white}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0}
+.section-title h2{font-size:20px}
+.section-title span{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-bottom:50px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:#66509c}
+.card img{display:block;width:100%;height:190px;object-fit:cover;background:#17182c}
+.card-body{padding:17px}
+.tag{display:inline-block;color:#c9b5ff;background:#28203e;padding:6px 9px;border-radius:20px;font-size:10px;margin-bottom:12px}
+.card h3{font-size:16px;line-height:1.5;margin-bottom:9px}
+.card p{color:var(--muted);font-size:12px;line-height:1.8;overflow-wrap:anywhere}
+.meta{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--border);margin-top:16px;padding-top:13px;color:var(--muted);font-size:10px}
+.read-more{display:inline-block;color:var(--blue);font-size:12px;margin-top:14px}
+.empty{display:none;text-align:center;color:var(--muted);padding:50px 15px;line-height:1.8}
+footer{border-top:1px solid var(--border);padding:27px 6%;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:11px}
+footer strong{color:var(--text)}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:45px}}
+@media(max-width:560px){header{padding:15px 5%;align-items:flex-start}.logo{font-size:19px}.nav{gap:12px;font-size:11px;padding-top:5px}.container{width:90%}.hero{padding:42px 5% 35px}.toolbar{margin-top:22px}.grid{grid-template-columns:1fr;gap:15px}.card img{height:210px}.section-title h2{font-size:18px}}
+</style>
+</head>
+
+<body>
+<header>
+  <a class="logo" href="index.html">GRADE <span>X</span></a>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="news.html">News</a>
+    <a href="complaints.html">Support</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">GRADE X COMMUNITY</div>
+  <h1>Stay informed.<br>Stay <span>ahead.</span></h1>
+  <p>Discover the latest announcements, community updates, important notices and upcoming events from GRADE X.</p>
+</section>
+
+<main class="container">
+  <div class="toolbar">
+    <input class="search" type="search" id="searchInput" placeholder="Search news and announcements..." aria-label="Search announcements">
+  </div>
+
+  <div class="categories" id="categories">
+    <button class="active" data-category="All">All Updates</button>
+    <button data-category="News">News</button>
+    <button data-category="Events">Events</button>
+    <button data-category="Academic">Academic</button>
+    <button data-category="Community">Community</button>
+  </div>
+
+  <div class="section-title">
+    <h2>Latest Updates</h2>
+    <span id="resultCount">3 updates</span>
+  </div>
+
+  <section class="grid" id="newsGrid">
+
+    <article class="card" data-category="News">
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Books on a library shelf" loading="lazy">
+      <div class="card-body">
+        <span class="tag">NEWS</span>
+        <h3>Welcome to the GRADE X Community</h3>
+        <p>A place to discover updates, connect with learning resources and stay informed about what's happening across GRADE X.</p>
+        <div class="meta"><span>Community Update</span><span>Welcome</span></div>
+        <span class="read-more">GRADE X Community</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="Academic">
+      <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80" alt="Notebook and study materials" loading="lazy">
+      <div class="card-body">
+        <span class="tag">ACADEMIC</span>
+        <h3>Keep building your knowledge</h3>
+        <p>Make time for revision, organise your notes and use learning resources to help you prepare for your next academic challenge.</p>
+        <div class="meta"><span>Study Tips</span><span>Learning</span></div>
+        <span class="read-more">Learn and improve</span>
+      </div>
+    </article>
+
+    <article class="card" data-category="Community">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80" alt="Friends spending time together" loading="lazy">
+      <div class="card-body">
+        <span class="tag">COMMUNITY</span>
+        <h3>Growing together as a community</h3>
+        <p>Respect, curiosity and collaboration help make a better learning community. Stay tuned for future GRADE X updates.</p>
+        <div class="meta"><span>Community</span><span>Updates</span></div>
+        <span class="read-more">Stay connected</span>
+      </div>
+    </article>
+
+  </section>
+
+  <div class="empty" id="emptyState">
+    <h3>No updates found</h3>
+    <p>Try another search or select a different category.</p>
+  </div>
+</main>
+
+<footer>
+  <div><strong>GRADE X COMMUNITY</strong><br><br>Learn more. Go further.</div>
+  <div>Support: <a href="mailto:gradexarena@gmail.com">gradexarena@gmail.com</a><br><br>© 2026 GRADE X</div>
+</footer>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+const categoryButtons = document.querySelectorAll("[data-category]");
+const cards = document.querySelectorAll(".card");
+const resultCount = document.getElementById("resultCount");
+const emptyState = document.getElementById("emptyState");
+
+let selectedCategory = "All";
+
+function filterNews() {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const category = card.dataset.category;
+    const content = card.textContent.toLowerCase();
+    const matchesCategory =
+      selectedCategory === "All" || category === selectedCategory;
+    const matchesSearch = content.includes(searchTerm);
+    const visible = matchesCategory && matchesSearch;
+
+    card.style.display = visible ? "" : "none";
+
+    if (visible) visibleCount++;
+  });
+
+  resultCount.textContent =
+    visibleCount + (visibleCount === 1 ? " update" : " updates");
+
+  emptyState.style.display = visibleCount === 0 ? "block" : "none";
+}
+
+categoryButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    selectedCategory = button.dataset.category;
+
+    categoryButtons.forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    filterNews();
+  });
+});
+
+searchInput.addEventListener("input", filterNews);
+filterNews();
+</script>
+</body>
+</html>
