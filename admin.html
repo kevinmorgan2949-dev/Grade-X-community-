@@ -8,6 +8,66 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="style.css">
 <style>
+
+/* GRADE X Admin — phone responsiveness */
+@media screen and (max-width: 700px) {
+  html,
+  body {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .app {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    position: relative;
+  }
+
+  .main,
+  .content,
+  .page,
+  .topbar,
+  .card,
+  .panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .main,
+  .content {
+    padding: 12px;
+  }
+
+  h1, h2, h3, p, label {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+  }
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#080914;--panel:#111326;--purple:#8b5cf6;--blue:#38bdf8;--text:#f4f3ff;--muted:#9699b5;--border:#282943}
 body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
