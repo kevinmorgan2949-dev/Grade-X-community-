@@ -1329,7 +1329,7 @@ announcementForm.addEventListener("submit", async event => {
 
       const { data: uploadData, error: uploadError } =
         await communityDB.storage
-          .from("community image")
+          .from("Community image")
           .upload(uniqueName, file, {
             contentType: file.type,
             upsert: false
@@ -1340,7 +1340,7 @@ announcementForm.addEventListener("submit", async event => {
       uploadedImagePath = uploadData.path;
 
       const { data: publicData } = communityDB.storage
-        .from("community image")
+        .from("Community image")
         .getPublicUrl(uploadData.path);
 
       imageUrl = publicData.publicUrl;
@@ -1361,7 +1361,7 @@ announcementForm.addEventListener("submit", async event => {
       // Clean up an uploaded image if saving the announcement failed
       if (uploadedImagePath) {
         await communityDB.storage
-          .from("community images")
+          .from("Community images")
           .remove([uploadedImagePath]);
       }
 
