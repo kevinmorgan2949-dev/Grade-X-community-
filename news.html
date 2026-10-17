@@ -87,40 +87,6 @@ footer strong{color:var(--text)}
   </div>
 
   <section class="grid" id="newsGrid">
-
-    <article class="card" data-category="News">
-      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Books on a library shelf" loading="lazy">
-      <div class="card-body">
-        <span class="tag">NEWS</span>
-        <h3>Welcome to the GRADE X Community</h3>
-        <p>A place to discover updates, connect with learning resources and stay informed about what's happening across GRADE X.</p>
-        <div class="meta"><span>Community Update</span><span>Welcome</span></div>
-        <span class="read-more">GRADE X Community</span>
-      </div>
-    </article>
-
-    <article class="card" data-category="Academic">
-      <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80" alt="Notebook and study materials" loading="lazy">
-      <div class="card-body">
-        <span class="tag">ACADEMIC</span>
-        <h3>Keep building your knowledge</h3>
-        <p>Make time for revision, organise your notes and use learning resources to help you prepare for your next academic challenge.</p>
-        <div class="meta"><span>Study Tips</span><span>Learning</span></div>
-        <span class="read-more">Learn and improve</span>
-      </div>
-    </article>
-
-    <article class="card" data-category="Community">
-      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80" alt="Friends spending time together" loading="lazy">
-      <div class="card-body">
-        <span class="tag">COMMUNITY</span>
-        <h3>Growing together as a community</h3>
-        <p>Respect, curiosity and collaboration help make a better learning community. Stay tuned for future GRADE X updates.</p>
-        <div class="meta"><span>Community</span><span>Updates</span></div>
-        <span class="read-more">Stay connected</span>
-      </div>
-    </article>
-
   </section>
 
   <div class="empty" id="emptyState">
@@ -134,36 +100,138 @@ footer strong{color:var(--text)}
   <div>Support: <a href="mailto:gradexarena@gmail.com">gradexarena@gmail.com</a><br><br>© 2026 GRADE X</div>
 </footer>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+const SUPABASE_URL =
+  "https://mjhpctegjxdhjfyjsyjc.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_AbnAAEsNmHb6U1-rfMS36A_A7_0XWwB";
+
+const communityDB = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 const searchInput = document.getElementById("searchInput");
 const categoryButtons = document.querySelectorAll("[data-category]");
-const cards = document.querySelectorAll(".card");
+const newsGrid = document.getElementById("newsGrid");
 const resultCount = document.getElementById("resultCount");
 const emptyState = document.getElementById("emptyState");
 
+let announcements = [];
 let selectedCategory = "All";
 
-function filterNews() {
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function renderAnnouncements() {
   const searchTerm = searchInput.value.toLowerCase().trim();
-  let visibleCount = 0;
 
-  cards.forEach(card => {
-    const category = card.dataset.category;
-    const content = card.textContent.toLowerCase();
+  const filtered = announcements.filter(item => {
+    const category = item.category || "News";
+
     const matchesCategory =
-      selectedCategory === "All" || category === selectedCategory;
-    const matchesSearch = content.includes(searchTerm);
-    const visible = matchesCategory && matchesSearch;
+      selectedCategory === "All" ||
+      category.toLowerCase() === selectedCategory.toLowerCase();
 
-    card.style.display = visible ? "" : "none";
+    const matchesSearch =
+      [item.title, item.message, category]
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm);
 
-    if (visible) visibleCount++;
+    return matchesCategory && matchesSearch;
   });
 
   resultCount.textContent =
-    visibleCount + (visibleCount === 1 ? " update" : " updates");
+    filtered.length +
+    (filtered.length === 1 ? " update" : " updates");
 
-  emptyState.style.display = visibleCount === 0 ? "block" : "none";
+  emptyState.style.display = filtered.length ? "none" : "block";
+
+  newsGrid.innerHTML = filtered.map(item => {
+    const title = escapeHTML(item.title);
+    const message = escapeHTML(item.message);
+    const category = escapeHTML(item.category || "News");
+
+    const date = item.created_at
+      ? new Date(item.created_at).toLocaleDateString()
+      : "";
+
+    // Only display valid HTTP or HTTPS image URLs.
+    let imageHTML = "";
+
+    if (item.image_url) {
+      try {
+        const imageURL = new URL(item.image_url);
+
+        if (["https:", "http:"].includes(imageURL.protocol)) {
+          imageHTML =
+            '<img src="' + escapeHTML(imageURL.href) +
+            '" alt="' + title +
+            '" loading="lazy" onerror="this.style.display=\'none\'">';
+        }
+      } catch (error) {
+        console.warn("Invalid announcement image URL.");
+      }
+    }
+
+    return `
+      <article class="card" data-category="${category}">
+        ${imageHTML}
+        <div class="card-body">
+          <span class="tag">${category}</span>
+          <h3>${title}</h3>
+          <p>${message.replace(/\n/g, "<br>")}</p>
+          <div class="meta">
+            <span>GRADE X Community</span>
+            <span>${escapeHTML(date)}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+async function loadAnnouncements() {
+  newsGrid.innerHTML =
+    '<p style="color:#999bb8">Loading announcements...</p>';
+
+  try {
+    const { data, error } = await communityDB
+      .from("announcements")
+      .select("id, title, message, category, image_url, created_at")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    announcements = data || [];
+    renderAnnouncements();
+
+  } catch (error) {
+    console.error("Could not load announcements:", error);
+
+    newsGrid.innerHTML = `
+      <p style="color:#fca5a5;grid-column:1/-1">
+        We couldn't load announcements.
+        Please check the database permissions and connection.
+      </p>
+    `;
+
+    resultCount.textContent = "Unavailable";
+    emptyState.style.display = "none";
+  }
 }
 
 categoryButtons.forEach(button => {
@@ -174,12 +242,18 @@ categoryButtons.forEach(button => {
       item.classList.toggle("active", item === button);
     });
 
-    filterNews();
+    renderAnnouncements();
   });
 });
 
-searchInput.addEventListener("input", filterNews);
-filterNews();
+searchInput.addEventListener("input", renderAnnouncements);
+
+document.getElementById("year")?.textContent =
+  new Date().getFullYear();
+
+loadAnnouncements();
 </script>
+</body>
+</html>
 </body>
 </html>
