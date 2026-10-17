@@ -221,6 +221,102 @@ body.is-admin .auth-screen {
   display: none;
 }
 
+/* GRADE X Admin: final mobile layout overrides */
+@media screen and (max-width: 700px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .app {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .nav button {
+    width: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .main,
+  .content,
+  .page,
+  .card,
+  .topbar {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .content {
+    padding: 14px;
+  }
+
+  .topbar {
+    padding: 14px;
+    flex-wrap: wrap;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .field input,
+  .field textarea,
+  .field select,
+  .auth-card input {
+    width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  .auth-screen {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 22px;
+  }
+
+  .notice,
+  .item,
+  .stat,
+  .card {
+    overflow-wrap: anywhere;
+  }
+}
+
 </style>
 </head>
 
@@ -292,10 +388,12 @@ body.is-admin .auth-screen {
 
   <div class="content">
 
-    <div class="notice">
-      <strong>Welcome to GRADE X Admin.</strong><br>
-      This is the frontend dashboard preview. Real user data, complaint storage and secure administrator access will be connected to the backend later.
-    </div>
+  <div class="notice">
+  <strong>Welcome to GRADE X Admin.</strong><br>
+  Manage community announcements and publish updates for visitors.
+  Your dashboard is connected to Supabase for administrator
+  authentication and announcement publishing.
+</div>
 
     <section class="page active" id="overview">
       <div class="stats">
