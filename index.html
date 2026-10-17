@@ -4,626 +4,531 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080812">
-  <meta name="description" content="GRADE X Community — Your voice. Your community. News, conversations, trends and ideas.">
-  <title>GRADE X | Community</title>
+  <meta name="theme-color" content="#080713">
+  <meta name="description" content="Discover updates, join discussions, explore trends and make your voice count with GRADE X Community.">
+  <title>GRADE X Community | Your Voice. Your Space.</title>
+
   <style>
     :root {
-      --bg: #080812;
-      --panel: #111124;
-      --purple: #955cff;
-      --blue: #448aff;
-      --text: #f5f3ff;
-      --muted: #aaa8c4;
-      --border: #292742;
+      --bg: #080713;
+      --panel: #100e20;
+      --purple: #8b5cf6;
+      --blue: #438cff;
+      --text: #f7f5ff;
+      --muted: #aaa6c4;
+      --border: rgba(180, 160, 255, .17);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
+      margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
-    button {
-      font: inherit;
-      cursor: pointer;
-    }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
     .container {
-      width: min(1100px, 92%);
+      width: min(1120px, 90%);
       margin: auto;
     }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      background: rgba(8, 8, 18, .94);
+      z-index: 100;
+      background: rgba(8, 7, 19, .94);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(15px);
     }
 
     .navbar {
-      min-height: 74px;
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
       font-weight: 900;
-      font-size: 20px;
       letter-spacing: 1px;
+      flex-shrink: 0;
     }
 
     .logo {
-      display: grid;
-      place-items: center;
       width: 43px;
       height: 43px;
+      display: grid;
+      place-items: center;
       border-radius: 13px;
       background: linear-gradient(135deg, var(--purple), var(--blue));
-      box-shadow: 0 0 24px #955cff38;
-    }
-
-    .logo span {
-      font-size: 21px;
+      color: white;
+      font-size: 19px;
     }
 
     .brand small {
       display: block;
-      font-size: 9px;
-      letter-spacing: 2px;
       color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 3px;
     }
 
     nav {
       display: flex;
       align-items: center;
-      gap: 22px;
+      gap: 20px;
     }
 
     nav a {
-      color: var(--muted);
-      font-size: 13px;
+      color: #d5d0e8;
+      font-size: 14px;
       transition: color .2s;
     }
 
-    nav a:hover {
-      color: white;
-    }
+    nav a:hover { color: white; }
 
-    .nav-btn, .primary-btn {
+    .nav-cta, .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 18px;
-      border: 0;
+      gap: 8px;
       border-radius: 10px;
-      background: linear-gradient(110deg, var(--purple), var(--blue));
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform .2s, filter .2s;
+    }
+
+    .nav-cta, .btn-primary {
       color: white;
-      font-weight: bold;
+      background: linear-gradient(110deg, var(--purple), #4d75ff);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.035);
+    }
+
+    .btn:hover, .nav-cta:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+    }
+
+    .menu-toggle {
+      display: none;
+      color: white;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 9px 13px;
+      font-size: 21px;
+      cursor: pointer;
     }
 
     .hero {
       position: relative;
       overflow: hidden;
-      padding: 90px 0 75px;
+      padding: 100px 0 85px;
       background:
-        radial-gradient(ellipse at 80% 20%, #6633aa28, transparent 45%),
-        radial-gradient(ellipse at 10% 80%, #1761ba20, transparent 40%);
+        radial-gradient(ellipse at 15% 20%, rgba(117, 70, 255, .22), transparent 42%),
+        radial-gradient(ellipse at 85% 45%, rgba(39, 113, 255, .16), transparent 38%);
     }
 
-    .hero-content {
-      max-width: 750px;
-      margin: auto;
-      text-align: center;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 55px;
     }
 
     .eyebrow {
       display: inline-block;
+      border: 1px solid rgba(157, 124, 255, .4);
+      background: rgba(139, 92, 246, .1);
+      color: #c7b7ff;
+      border-radius: 50px;
       padding: 7px 13px;
-      border: 1px solid #7956c955;
-      border-radius: 30px;
-      color: #c3a6ff;
-      background: #8c52ff12;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: bold;
-      letter-spacing: 2px;
+      letter-spacing: 1.3px;
     }
 
     h1 {
-      margin: 23px 0 17px;
-      font-size: clamp(38px, 8vw, 76px);
-      line-height: 1.05;
-      letter-spacing: -2px;
+      font-size: clamp(43px, 6.5vw, 76px);
+      line-height: 1.06;
+      letter-spacing: -3px;
+      margin: 23px 0;
     }
 
     .gradient-text {
-      background: linear-gradient(90deg, #b98aff, #65a7ff);
+      background: linear-gradient(100deg, #bd9bff, #73b9ff);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
-    .hero p {
-      max-width: 570px;
-      margin: 0 auto;
+    .hero-copy {
+      max-width: 540px;
       color: var(--muted);
-      font-size: 16px;
+      font-size: 17px;
+      margin-bottom: 30px;
     }
 
     .hero-actions {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
+      gap: 13px;
     }
 
-    .secondary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 18px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #ffffff05;
-    }
-
-    .ticker {
-      padding: 13px 0;
-      background: #121125;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    .hero-note {
+      margin-top: 22px;
+      color: #8e89aa;
       font-size: 12px;
     }
 
-    .ticker-inner {
-      display: flex;
-      gap: 12px;
-      align-items: center;
+    .showcase {
+      position: relative;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(26, 22, 50, .96), rgba(12, 13, 30, .96));
+      box-shadow: 0 25px 80px rgba(0,0,0,.3);
     }
 
-    .live {
-      color: #d0b4ff;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .ticker p {
-      color: var(--muted);
-    }
-
-    section {
-      padding: 65px 0;
-      scroll-margin-top: 80px;
-    }
-
-    .section-heading {
+    .showcase-top {
       display: flex;
       justify-content: space-between;
-      align-items: end;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .section-heading h2 {
-      font-size: clamp(23px, 5vw, 34px);
-      letter-spacing: -.6px;
-    }
-
-    .section-heading p {
+      align-items: center;
+      margin-bottom: 20px;
       color: var(--muted);
-      font-size: 13px;
-      margin-top: 4px;
+      font-size: 12px;
     }
 
-    .text-link {
-      color: #b99aff;
-      font-size: 13px;
-      white-space: nowrap;
+    .live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #5ee6a8;
+      margin-right: 6px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 17px;
-    }
-
-    .card {
-      overflow: hidden;
+    .feature-card {
+      display: block;
+      padding: 22px;
       border: 1px solid var(--border);
       border-radius: 17px;
-      background: var(--panel);
-      transition: transform .2s, border-color .2s;
+      margin-bottom: 13px;
+      background: rgba(255,255,255,.035);
+      transition: background .2s, transform .2s;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #7956c9;
-    }
-
-    .card-art {
-      min-height: 145px;
-      display: grid;
-      place-items: center;
-      font-size: 48px;
-      background: linear-gradient(135deg, #42226d, #152b56);
-    }
-
-    .art-blue {
-      background: linear-gradient(135deg, #173f78, #27194b);
-    }
-
-    .art-pink {
-      background: linear-gradient(135deg, #65294f, #292052);
-    }
-
-    .card-body {
-      padding: 19px;
-    }
-
-    .tag {
-      display: inline-block;
-      margin-bottom: 10px;
-      color: #c4a9ff;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-      font-size: 17px;
-      line-height: 1.4;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .card-meta {
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-      color: #8e8ba9;
-      font-size: 11px;
-    }
-
-    .community-panel {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 28px;
-      align-items: center;
-      padding: 32px;
-      border: 1px solid #6143a255;
-      border-radius: 22px;
-      background:
-        radial-gradient(ellipse at top right, #7544bd24, transparent 55%),
-        var(--panel);
-    }
-
-    .community-panel h2 {
-      margin: 14px 0;
-      font-size: clamp(26px, 5vw, 40px);
-      line-height: 1.2;
-    }
-
-    .community-panel p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .feature-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .feature {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 15px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #08081270;
+    .feature-card:hover {
+      background: rgba(139,92,246,.12);
+      transform: translateY(-2px);
     }
 
     .feature-icon {
       font-size: 25px;
+      margin-bottom: 8px;
     }
 
-    .feature strong {
-      display: block;
+    .feature-card h3 { margin: 0 0 4px; font-size: 18px; }
+
+    .feature-card p {
+      color: var(--muted);
       font-size: 13px;
+      margin: 0;
     }
 
-    .feature small {
+    section.content-section { padding: 78px 0; }
+
+    .section-heading {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 38px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 4vw, 45px);
+      line-height: 1.15;
+      margin: 14px 0;
+    }
+
+    .section-heading p { color: var(--muted); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .site-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 245px;
+      padding: 25px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .site-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(157,124,255,.65);
+    }
+
+    .site-card .feature-icon { font-size: 30px; }
+
+    .site-card h3 { margin: 10px 0 7px; font-size: 20px; }
+
+    .site-card p {
       color: var(--muted);
-      font-size: 11px;
+      font-size: 14px;
+      margin: 0 0 20px;
     }
 
-    .complaint-box {
-      padding: 30px;
-      border: 1px solid #41407b;
-      border-radius: 20px;
-      background: linear-gradient(120deg, #18132c, #101c34);
-    }
-
-    .complaint-box h2 {
-      margin-bottom: 9px;
-      font-size: 27px;
-    }
-
-    .complaint-box p {
-      margin-bottom: 20px;
-      color: var(--muted);
+    .card-link {
+      margin-top: auto;
+      color: #bba7ff;
+      font-weight: bold;
       font-size: 14px;
     }
 
+    .banner {
+      padding: 42px;
+      border: 1px solid var(--border);
+      border-radius: 23px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(65, 125, 255, .22), transparent 55%),
+        linear-gradient(120deg, #17102d, #10172b);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .banner h2 { font-size: clamp(26px, 4vw, 38px); margin: 0 0 8px; }
+
+    .banner p { color: var(--muted); margin: 0; }
+
+    .banner-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
     footer {
-      padding: 32px 0;
       border-top: 1px solid var(--border);
-      background: #06060d;
+      padding: 35px 0;
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .footer-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .footer-inner p, .footer-inner a {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 16px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    .notice {
-      padding: 10px 0;
-      text-align: center;
-      color: #8e8ba9;
-      font-size: 11px;
-    }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 17px; }
 
-    @media (max-width: 760px) {
-      .navbar {
-        min-height: 66px;
-      }
+    .footer-links a:hover { color: white; }
+
+    @media (max-width: 850px) {
+      .menu-toggle { display: block; }
 
       nav {
-        gap: 12px;
-      }
-
-      nav a:not(.nav-btn) {
         display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        right: 0;
+        padding: 20px 5% 25px;
+        background: #0c0a1b;
+        border-bottom: 1px solid var(--border);
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
       }
 
-      .hero {
-        padding: 72px 0 60px;
-      }
+      nav.open { display: flex; }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      nav a { font-size: 15px; }
 
-      .card-art {
-        min-height: 125px;
-      }
+      .hero { padding: 65px 0; }
 
-      .community-panel {
-        grid-template-columns: 1fr;
-        padding: 22px;
-      }
+      .hero-grid { grid-template-columns: 1fr; gap: 38px; }
 
-      section {
-        padding: 48px 0;
-      }
+      .showcase { max-width: 600px; width: 100%; }
 
-      .section-heading {
-        align-items: start;
-      }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .banner { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 540px) {
+      h1 { letter-spacing: -1.8px; }
+
+      .cards { grid-template-columns: 1fr; }
+
+      .site-card { min-height: 205px; }
+
+      .banner { padding: 27px; }
+
+      .hero-copy { font-size: 15px; }
+
+      .hero-actions .btn { flex: 1 1 auto; }
     }
   </style>
 </head>
+
 <body>
+  <header>
+    <div class="container navbar">
+      <a class="brand" href="./index.html" aria-label="GRADE X Community home">
+        <span class="logo">GX</span>
+        <span>GRADE X<small>COMMUNITY</small></span>
+      </a>
 
+      <button class="menu-toggle" id="menuToggle"
+        aria-label="Open navigation" aria-expanded="false">☰</button>
 
-<header>
-  <div class="container navbar">
-    <a class="brand" href="index.html">
-      <span class="logo"><span>GX</span></span>
-      <span>GRADE X<small>COMMUNITY</small></span>
-    </a>
-
-    <nav aria-label="Main navigation">
-      <a href="./news.html">GX News</a>
-      <a href="discussions.html">Community</a>
-      <a href="trends.html">Trends</a>
-      <a class="nav-btn" href="complaints.html">Speak Up ↗</a>
-    </nav>
-  </div>
-</header>
-
+      <nav id="mainNav" aria-label="Main navigation">
+        <a href="./index.html">Home</a>
+        <a href="./news.html">GX Updates</a>
+        <a href="./discussions.html">Community</a>
+        <a href="./trends.html">Trends</a>
+        <a class="nav-cta" href="./compliant.html">Speak Up ↗</a>
+      </nav>
+    </div>
+  </header>
 
   <main>
-    <section class="hero" id="home">
-      <div class="container hero-content">
-        <span class="eyebrow">WELCOME TO THE GX COMMUNITY</span>
-        <h1>YOUR VOICE.<br><span class="gradient-text">YOUR COMMUNITY.</span></h1>
-        <p>
-          Discover stories, share ideas, join conversations and
-          speak up about the things that matter. This is your space.
-        </p>
-        <div class="hero-actions">
-          <a class="primary-btn" href="news.html">Explore GX →</a>
-          <a class="secondary-btn" href="#speak-up">Submit a Complaint</a>
-        </div>
-      </div>
-    </section>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">WELCOME TO GRADE X</span>
 
-    <div class="ticker">
-      <div class="container ticker-inner">
-        <span class="live">✦ GX COMMUNITY</span>
-        <p>News • Ideas • Conversations • Entertainment • Your Voice</p>
-      </div>
-    </div>
+          <h1>
+            Your voice.<br>
+            Your space.<br>
+            <span class="gradient-text">Your community.</span>
+          </h1>
 
-    <section id="news">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>Inside <span class="gradient-text">GX News</span></h2>
-            <p>Stories and updates worth talking about.</p>
-          </div>
-          <a class="text-link" href="#news">Explore news ↗</a>
-        </div>
-
-        <div class="grid">
-          <article class="card">
-            <div class="card-art">📰</div>
-            <div class="card-body">
-              <span class="tag">GX Updates</span>
-              <h3>Welcome to a new space for the community</h3>
-              <p>A place to discover updates, share perspectives and make your voice count.</p>
-              <div class="card-meta">GRADE X · Welcome story</div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-art art-blue">🌍</div>
-            <div class="card-body">
-              <span class="tag">What's Happening</span>
-              <h3>Ideas and stories from around us</h3>
-              <p>Explore the topics people are discussing and the ideas shaping our community.</p>
-              <div class="card-meta">COMMUNITY · Featured</div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-art art-pink">💡</div>
-            <div class="card-body">
-              <span class="tag">Your Ideas</span>
-              <h3>Good ideas deserve to be heard</h3>
-              <p>Have a suggestion for making things better? GRADE X wants to hear from you.</p>
-              <div class="card-meta">GX VOICES · Get involved</div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="community">
-      <div class="container">
-        <div class="community-panel">
-          <div>
-            <span class="eyebrow">MORE THAN A WEBSITE</span>
-            <h2>There's a place for <span class="gradient-text">your voice.</span></h2>
-            <p>
-              Join conversations, share your ideas, ask questions and
-              discover what other members of the community care about.
-            </p>
-            <div class="hero-actions" style="justify-content:flex-start">
-              <a class="primary-btn" href="#trends">Explore the community</a>
-            </div>
-          </div>
-
-          <div class="feature-list">
-            <div class="feature">
-              <span class="feature-icon">💬</span>
-              <div><strong>Community Discussions</strong><small>Questions, opinions and conversations</small></div>
-            </div>
-            <div class="feature">
-              <span class="feature-icon">📊</span>
-              <div><strong>Polls & Opinions</strong><small>Share your view on community topics</small></div>
-            </div>
-            <div class="feature">
-              <span class="feature-icon">🤝</span>
-              <div><strong>Suggestions</strong><small>Help make the community better</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="trends">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>GX <span class="gradient-text">Trending</span></h2>
-            <p>Fun, culture and interesting conversations.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card">
-            <div class="card-art art-pink">😂</div>
-            <div class="card-body">
-              <span class="tag">Entertainment</span>
-              <h3>Memes & Good Vibes</h3>
-              <p>A space for humour, funny moments and shareable content.</p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-art art-blue">🔥</div>
-            <div class="card-body">
-              <span class="tag">Hot Topics</span>
-              <h3>What's Everyone Talking About?</h3>
-              <p>Discover interesting topics and join the conversation.</p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-art">🧠</div>
-            <div class="card-body">
-              <span class="tag">Did You Know?</span>
-              <h3>Facts Worth Sharing</h3>
-              <p>Surprising facts, fresh perspectives and things to learn.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="speak-up">
-      <div class="container">
-        <div class="complaint-box">
-          <span class="eyebrow">YOUR VOICE MATTERS</span>
-          <h2>Something on your mind?</h2>
-          <p>
-            Share a complaint, report a concern or suggest an improvement.
-            You deserve a space to be heard.
+          <p class="hero-copy">
+            Discover what's happening, share your perspective, explore
+            what's trending, and connect with a community where your
+            voice matters.
           </p>
-          <a class="primary-btn" href="complaints.html">Go to Complaints & Suggestions →</a>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="./news.html">Explore GX Updates →</a>
+            <a class="btn btn-secondary" href="./discussions.html">Join the Community</a>
+          </div>
+
+          <p class="hero-note">Discover. Connect. Speak up. Be part of GRADE X.</p>
+        </div>
+
+        <div class="showcase">
+          <div class="showcase-top">
+            <span>YOUR COMMUNITY HUB</span>
+            <span><i class="live-dot"></i>Explore GRADE X</span>
+          </div>
+
+          <a class="feature-card" href="./news.html">
+            <div class="feature-icon">⚡</div>
+            <h3>GX Updates</h3>
+            <p>Announcements, news and important community updates.</p>
+          </a>
+
+          <a class="feature-card" href="./discussions.html">
+            <div class="feature-icon">💬</div>
+            <h3>Community Discussions</h3>
+            <p>Explore conversations and share your point of view.</p>
+          </a>
+
+          <a class="feature-card" href="./trends.html">
+            <div class="feature-icon">✦</div>
+            <h3>Trends & Entertainment</h3>
+            <p>Discover trending topics, culture and entertainment.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="explore">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">EXPLORE THE PLATFORM</span>
+          <h2>Everything starts <span class="gradient-text">with you.</span></h2>
+          <p>
+            Find your place in the community. Every card below takes you
+            to its own section of the GRADE X website.
+          </p>
+        </div>
+
+        <div class="cards">
+          <a class="site-card" href="./news.html">
+            <div class="feature-icon">📢</div>
+            <h3>GX Updates</h3>
+            <p>Read the latest announcements and updates published by GRADE X.</p>
+            <span class="card-link">Read updates →</span>
+          </a>
+
+          <a class="site-card" href="./discussions.html">
+            <div class="feature-icon">🗣️</div>
+            <h3>Community</h3>
+            <p>Visit the community space for discussions and shared perspectives.</p>
+            <span class="card-link">Explore community →</span>
+          </a>
+
+          <a class="site-card" href="./trends.html">
+            <div class="feature-icon">🎬</div>
+            <h3>Trends & Entertainment</h3>
+            <p>Explore entertainment, interesting topics and what's trending.</p>
+            <span class="card-link">Explore trends →</span>
+          </a>
+          <a class="site-card" href="mailto:gradexarena@gmail.com">
+            <div class="feature-icon">✉️</div>
+            <h3>Contact Us</h3>
+            <p>Reach the GRADE X Community support team by email.</p>
+            <span class="card-link">Send an email →</span>
+          </a>
+
+          <a class="site-card" href="https://wa.me/2347039690294" target="_blank" rel="noopener noreferrer">
+            <div class="feature-icon">📱</div>
+            <h3>WhatsApp Support</h3>
+            <p>Contact GRADE X support directly on WhatsApp.</p>
+            <span class="card-link">Chat with support →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="banner">
+          <div>
+            <h2>Have something to say?</h2>
+            <p>Your feedback helps the GRADE X community grow.</p>
+          </div>
+
+          <div class="banner-actions">
+            <a class="btn btn-primary" href="./complaints.html">Share Your Feedback ↗</a>
+            <a class="btn btn-secondary" href="mailto:gradexarena@gmail.com">Contact Us</a>
+          </div>
         </div>
       </div>
     </section>
@@ -631,24 +536,46 @@
 
   <footer>
     <div class="container footer-inner">
-      <a class="brand" href="#home">
+      <a class="brand" href="./index.html">
         <span class="logo">GX</span>
         <span>GRADE X<small>COMMUNITY</small></span>
       </a>
+
+      <span>© <span id="year"></span> GRADE X Community</span>
+
       <div class="footer-links">
-        <a href="#news">News</a>
-        <a href="#community">Community</a>
-        <a href="#speak-up">Complaints</a>
+        <a href="./news.html">Updates</a>
+        <a href="./discussions.html">Community</a>
+        <a href="./trends.html">Trends</a>
+        <a href="./complaints.html">Speak Up</a>
+        <a href="mailto:gradexarena@gmail.com">Contact</a>
       </div>
-      <p>© <span id="year"></span> GRADE X. All rights reserved.</p>
-    </div>
-    <div class="container notice">
-      A community built around stories, ideas and voices.
     </div>
   </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const menuToggle = document.getElementById("menuToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    menuToggle.addEventListener("click", function () {
+      const isOpen = mainNav.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label",
+        isOpen ? "Close navigation" : "Open navigation");
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    mainNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        mainNav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,71 +8,247 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#080914;--panel:#111326;--purple:#8b5cf6;--blue:#38bdf8;--text:#f4f3ff;--muted:#999bb8;--border:#282943}
-body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+:root{
+  --bg:#080914;
+  --panel:#111326;
+  --purple:#8b5cf6;
+  --blue:#38bdf8;
+  --text:#f4f3ff;
+  --muted:#999bb8;
+  --border:#282943
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  min-height:100vh
+}
 a{color:inherit;text-decoration:none}
 button,input{font:inherit}
 button{cursor:pointer}
-header{padding:17px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--border);background:#0c0d1b}
+header{
+  padding:17px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid var(--border);
+  background:#0c0d1b
+}
 .logo{font-size:23px;font-weight:900;letter-spacing:1px}
 .logo span{color:var(--purple)}
-.nav{display:flex;align-items:center;gap:20px;font-size:12px;color:#c6c7dd}
+.nav{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  font-size:12px;
+  color:#c6c7dd
+}
 .nav a:hover{color:var(--blue)}
-.hero{padding:60px 6% 45px;background:radial-gradient(ellipse at top left,#28204b 0%,#101126 45%,#080914 85%);border-bottom:1px solid var(--border)}
-.eyebrow{color:#bba4ff;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:15px}
-.hero h1{font-size:clamp(32px,6vw,55px);line-height:1.1;max-width:650px;margin-bottom:15px}
+.hero{
+  padding:60px 6% 45px;
+  background:radial-gradient(
+    ellipse at top left,
+    #28204b 0%,#101126 45%,#080914 85%
+  );
+  border-bottom:1px solid var(--border)
+}
+.eyebrow{
+  color:#bba4ff;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:15px
+}
+.hero h1{
+  font-size:clamp(32px,6vw,55px);
+  line-height:1.1;
+  max-width:650px;
+  margin-bottom:15px
+}
 .hero h1 span{color:var(--purple)}
-.hero p{color:#b5b5ce;font-size:14px;line-height:1.8;max-width:560px}
+.hero p{
+  color:#b5b5ce;
+  font-size:14px;
+  line-height:1.8;
+  max-width:560px
+}
 .container{width:88%;max-width:1150px;margin:auto}
 .toolbar{display:flex;gap:12px;margin:28px 0 17px}
-.search{flex:1;min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:13px 15px;color:white;outline:none}
+.search{
+  flex:1;
+  min-width:0;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:13px 15px;
+  color:white;
+  outline:none
+}
 .search:focus{border-color:var(--purple)}
-.categories{display:flex;gap:8px;overflow-x:auto;padding:3px 0 15px}
-.categories button{flex-shrink:0;background:var(--panel);color:#c7c7dd;border:1px solid var(--border);border-radius:20px;padding:9px 15px;font-size:11px}
-.categories button.active,.categories button:hover{background:#30204f;border-color:var(--purple);color:white}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0}
+.categories{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:3px 0 15px
+}
+.categories button{
+  flex-shrink:0;
+  background:var(--panel);
+  color:#c7c7dd;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:9px 15px;
+  font-size:11px
+}
+.categories button.active,
+.categories button:hover{
+  background:#30204f;
+  border-color:var(--purple);
+  color:white
+}
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:20px 0
+}
 .section-title h2{font-size:20px}
 .section-title span{font-size:11px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-bottom:50px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-3px);border-color:#66509c}
-.card img{display:block;width:100%;height:190px;object-fit:cover;background:#17182c}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  padding-bottom:50px
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#66509c
+}
+.card img{
+  display:block;
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  background:#17182c
+}
 .card-body{padding:17px}
-.tag{display:inline-block;color:#c9b5ff;background:#28203e;padding:6px 9px;border-radius:20px;font-size:10px;margin-bottom:12px}
+.tag{
+  display:inline-block;
+  color:#c9b5ff;
+  background:#28203e;
+  padding:6px 9px;
+  border-radius:20px;
+  font-size:10px;
+  margin-bottom:12px
+}
 .card h3{font-size:16px;line-height:1.5;margin-bottom:9px}
-.card p{color:var(--muted);font-size:12px;line-height:1.8;overflow-wrap:anywhere}
-.meta{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--border);margin-top:16px;padding-top:13px;color:var(--muted);font-size:10px}
-.read-more{display:inline-block;color:var(--blue);font-size:12px;margin-top:14px}
-.empty{display:none;text-align:center;color:var(--muted);padding:50px 15px;line-height:1.8}
-footer{border-top:1px solid var(--border);padding:27px 6%;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:11px}
+.card p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  overflow-wrap:anywhere
+}
+.meta{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  border-top:1px solid var(--border);
+  margin-top:16px;
+  padding-top:13px;
+  color:var(--muted);
+  font-size:10px
+}
+.read-more{
+  display:inline-block;
+  color:var(--blue);
+  font-size:12px;
+  margin-top:14px
+}
+.read-more:hover{color:#c4b5fd}
+.empty{
+  display:none;
+  text-align:center;
+  color:var(--muted);
+  padding:50px 15px;
+  line-height:1.8
+}
+.status{
+  color:var(--muted);
+  padding:25px 0;
+  text-align:center;
+  grid-column:1/-1;
+  line-height:1.8
+}
+.status.error{color:#fca5a5}
+footer{
+  border-top:1px solid var(--border);
+  padding:27px 6%;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:11px
+}
 footer strong{color:var(--text)}
-@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:45px}}
-@media(max-width:560px){header{padding:15px 5%;align-items:flex-start}.logo{font-size:19px}.nav{gap:12px;font-size:11px;padding-top:5px}.container{width:90%}.hero{padding:42px 5% 35px}.toolbar{margin-top:22px}.grid{grid-template-columns:1fr;gap:15px}.card img{height:210px}.section-title h2{font-size:18px}}
+@media(max-width:850px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{padding-top:45px}
+}
+@media(max-width:560px){
+  header{padding:15px 5%;align-items:flex-start}
+  .logo{font-size:19px}
+  .nav{gap:12px;font-size:11px;padding-top:5px}
+  .container{width:90%}
+  .hero{padding:42px 5% 35px}
+  .toolbar{margin-top:22px}
+  .grid{grid-template-columns:1fr;gap:15px}
+  .card img{height:210px}
+  .section-title h2{font-size:18px}
+}
 </style>
 </head>
 
 <body>
 <header>
-  <a class="logo" href="index.html">GRADE <span>X</span></a>
+  <a class="logo" href="./index.html">GRADE <span>X</span></a>
   <nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="news.html">News</a>
-    <a href="complaints.html">Support</a>
+    <a href="./index.html">Home</a>
+    <a href="./news.html">News</a>
+    <a href="./compliant.html">Support</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="eyebrow">GRADE X COMMUNITY</div>
   <h1>Stay informed.<br>Stay <span>ahead.</span></h1>
-  <p>Discover the latest announcements, community updates, important notices and upcoming events from GRADE X.</p>
+  <p>
+    Discover the latest announcements, community updates,
+    important notices and upcoming events from GRADE X.
+  </p>
 </section>
 
 <main class="container">
   <div class="toolbar">
-    <input class="search" type="search" id="searchInput" placeholder="Search news and announcements..." aria-label="Search announcements">
+    <input
+      class="search"
+      type="search"
+      id="searchInput"
+      placeholder="Search news and announcements..."
+      aria-label="Search announcements"
+    >
   </div>
 
-  <div class="categories" id="categories">
+  <div class="categories">
     <button class="active" data-category="All">All Updates</button>
     <button data-category="News">News</button>
     <button data-category="Events">Events</button>
@@ -83,10 +258,11 @@ footer strong{color:var(--text)}
 
   <div class="section-title">
     <h2>Latest Updates</h2>
-    <span id="resultCount">3 updates</span>
+    <span id="resultCount">Loading...</span>
   </div>
 
   <section class="grid" id="newsGrid">
+    <p class="status">Loading announcements...</p>
   </section>
 
   <div class="empty" id="emptyState">
@@ -96,10 +272,16 @@ footer strong{color:var(--text)}
 </main>
 
 <footer>
-  <div><strong>GRADE X COMMUNITY</strong><br><br>Learn more. Go further.</div>
-  <div>Support: <a href="mailto:gradexarena@gmail.com">gradexarena@gmail.com</a><br><br>© 2026 GRADE X</div>
+  <div>
+    <strong>GRADE X COMMUNITY</strong>
+    <br><br>Learn more. Go further.
+  </div>
+  <div>
+    Support:
+    <a href="mailto:gradexarena@gmail.com">gradexarena@gmail.com</a>
+    <br><br>© 2026 GRADE X
+  </div>
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -109,11 +291,6 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
   "sb_publishable_AbnAAEsNmHb6U1-rfMS36A_A7_0XWwB";
-
-const communityDB = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
 const searchInput = document.getElementById("searchInput");
 const categoryButtons = document.querySelectorAll("[data-category]");
@@ -168,7 +345,6 @@ function renderAnnouncements() {
       ? new Date(item.created_at).toLocaleDateString()
       : "";
 
-    // Only display valid HTTP or HTTPS image URLs.
     let imageHTML = "";
 
     if (item.image_url) {
@@ -186,56 +362,83 @@ function renderAnnouncements() {
       }
     }
 
-    
-return `
-  <article class="card" data-category="${category}">
-    ${imageHTML}
-    <div class="card-body">
-      <span class="tag">${escapeHTML(category)}</span>
-      <h3>${escapeHTML(title)}</h3>
-      <p>${escapeHTML(message).replace(/\n/g, "<br>")}</p>
-      <div class="meta">
-        <span>GRADE X Community</span>
-        <span>${escapeHTML(date)}</span>
-      </div>
-      <a class="read-more"
-         href="./announcement.html?id=${encodeURIComponent(item.id)}">
-        Read Full Announcement →
-      </a>
-    </div>
-  </article>
-`;
+    return `
+      <article class="card">
+        ${imageHTML}
+        <div class="card-body">
+          <span class="tag">${category}</span>
+          <h3>${title}</h3>
+          <p>${message.replace(/\n/g, "<br>")}</p>
+          <div class="meta">
+            <span>GRADE X Community</span>
+            <span>${escapeHTML(date)}</span>
+          </div>
+          <a class="read-more"
+             href="./announcement.html?id=${encodeURIComponent(item.id)}">
+            Read Full Announcement →
+          </a>
+        </div>
+      </article>
+    `;
+  }).join("");
 
+  if (filtered.length === 0) {
+    newsGrid.innerHTML = "";
+  }
 }
 
 async function loadAnnouncements() {
   newsGrid.innerHTML =
-    '<p style="color:#999bb8">Loading announcements...</p>';
+    '<p class="status">Loading announcements...</p>';
+
+  resultCount.textContent = "Loading...";
+  emptyState.style.display = "none";
 
   try {
+    if (!window.supabase) {
+      throw new Error(
+        "Supabase could not load. Check your internet connection and try again."
+      );
+    }
+
+    const communityDB = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
     const { data, error } = await communityDB
       .from("announcements")
       .select("id, title, message, category, image_url, created_at")
       .eq("is_published", true)
       .order("created_at", { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
 
     announcements = data || [];
+
     renderAnnouncements();
 
   } catch (error) {
     console.error("Could not load announcements:", error);
 
-    newsGrid.innerHTML = `
-      <p style="color:#fca5a5;grid-column:1/-1">
-        We couldn't load announcements.
-        Please check the database permissions and connection.
-      </p>
-    `;
-
     resultCount.textContent = "Unavailable";
     emptyState.style.display = "none";
+
+    newsGrid.innerHTML = `
+      <p class="status error">
+        We couldn't load announcements.<br>
+        ${escapeHTML(error.message || "Please check your connection and try again.")}
+      </p>
+      <button
+        onclick="loadAnnouncements()"
+        style="padding:10px 16px;border:1px solid #8b5cf6;
+        background:#28204b;color:white;border-radius:8px;
+        margin:0 auto 30px;grid-column:1/-1">
+        Try Again
+      </button>
+    `;
   }
 }
 
@@ -253,12 +456,7 @@ categoryButtons.forEach(button => {
 
 searchInput.addEventListener("input", renderAnnouncements);
 
-document.getElementById("year")?.textContent =
-  new Date().getFullYear();
-
 loadAnnouncements();
 </script>
-</body>
-</html>
 </body>
 </html>
