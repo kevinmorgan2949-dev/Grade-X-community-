@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcement | GRADE X Community</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #080812;
+      color: #f5f5ff;
+      line-height: 1.7;
+    }
+    
+    header {
+      padding: 18px 5%;
+      border-bottom: 1px solid #272442;
+      background: #0e0d20;
+    }
+    
+    header a {
+      color: #a99aff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    main {
+      width: 90%;
+      max-width: 850px;
+      margin: 40px auto;
+    }
+    
+    .tag {
+      display: inline-block;
+      color: #b6a8ff;
+      background: #211b40;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+    
+    h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      line-height: 1.2;
+      margin: 18px 0;
+    }
+    
+    .meta {
+      color: #aaa8c4;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+    
+    #postImage {
+      display: none;
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 25px;
+    }
+    
+    #postMessage {
+      font-size: 17px;
+      overflow-wrap: anywhere;
+    }
+    
+    .status {
+      color: #c3bddf;
+      padding: 30px 0;
+    }
+    
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      color: #b6a8ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="./news.html">← Back to GX Updates</a>
+  </header>
+  
+  <main>
+    <p id="status" class="status">Loading announcement...</p>
+    
+    <article id="announcement" hidden>
+      <span id="postCategory" class="tag"></span>
+      <h1 id="postTitle"></h1>
+      <div id="postMeta" class="meta"></div>
+      <img id="postImage" alt="Announcement image">
+      <div id="postMessage"></div>
+      
+      <a class="back" href="./news.html">← Back to all updates</a>
+    </article>
+  </main>
+  
+  <script>
+    const SUPABASE_URL = "https://mjhpctegjxdhjfyjsyjc.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_AbnAAEsNmHb6U1-rfMS36A_A7_0XWwB";
+    
+    const communityDB = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+    
+    const status = document.getElementById("status");
+    const article = document.getElementById("announcement");
+    
+    function showText(id, value) {
+      document.getElementById(id).textContent = value || "";
+    }
+    
+    async function loadAnnouncement() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      
+      if (!id) {
+        status.textContent = "No announcement was selected. Please return to GX Updates.";
+        return;
+      }
+      
+      const { data, error } = await communityDB
+        .from("announcements")
+        .select("id, title, message, category, image_url, created_at")
+        .eq("id", id)
+        .eq("is_published", true)
+        .maybeSingle();
+      
+      if (error || !data) {
+        status.textContent = "We couldn't find this announcement. It may have been removed or is not published.";
+        return;
+      }
+      
+      showText("postCategory", data.category);
+      showText("postTitle", data.title);
+      showText("postMeta",
+        "GRADE X Community · " +
+        new Date(data.created_at).toLocaleDateString()
+      );
+      
+      const message = document.getElementById("postMessage");
+      message.replaceChildren();
+      
+      (data.message || "").split("\n").forEach((line, index) => {
+        if (index > 0) message.appendChild(document.createElement("br"));
+        message.appendChild(document.createTextNode(line));
+      });
+      
+      if (data.image_url) {
+        const image = document.getElementById("postImage");
+        image.src = data.image_url;
+        image.style.display = "block";
+      }
+      
+      article.hidden = false;
+      status.style.display = "none";
+    }
+    
+    loadAnnouncement();
+  </script>
+</body>
+
+</html>

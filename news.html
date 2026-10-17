@@ -186,21 +186,26 @@ function renderAnnouncements() {
       }
     }
 
-    return `
-      <article class="card" data-category="${category}">
-        ${imageHTML}
-        <div class="card-body">
-          <span class="tag">${category}</span>
-          <h3>${title}</h3>
-          <p>${message.replace(/\n/g, "<br>")}</p>
-          <div class="meta">
-            <span>GRADE X Community</span>
-            <span>${escapeHTML(date)}</span>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
+    
+return `
+  <article class="card" data-category="${category}">
+    ${imageHTML}
+    <div class="card-body">
+      <span class="tag">${escapeHTML(category)}</span>
+      <h3>${escapeHTML(title)}</h3>
+      <p>${escapeHTML(message).replace(/\n/g, "<br>")}</p>
+      <div class="meta">
+        <span>GRADE X Community</span>
+        <span>${escapeHTML(date)}</span>
+      </div>
+      <a class="read-more"
+         href="./announcement.html?id=${encodeURIComponent(item.id)}">
+        Read Full Announcement →
+      </a>
+    </div>
+  </article>
+`;
+
 }
 
 async function loadAnnouncements() {
